@@ -1,6 +1,6 @@
-# README #
+# HOW TO RUN
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Come to this directory to run
 
 ### What is this repository for? ###
 
