@@ -19,3 +19,6 @@ Come to this directory, execute `source <shell_script>`
 
 * Repo owner or admin
 * Other community or team contact
+
+# full-stack-kata
+Full stask code kata
