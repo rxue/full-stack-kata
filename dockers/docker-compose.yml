@@ -1,7 +1,20 @@
 version: '3.4'
+
 services:
   report-generator:
     build: ../backend/java/ee/7/ejb3.2/report-generator
+    networks:
+      common:
+        ipv4_address: 172.20.0.2
     ports:
     - "8081:8081"
     container_name: report-generator
+
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.1/16
+
