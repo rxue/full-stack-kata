@@ -19,7 +19,3 @@ Come to this directory, execute `source <shell_script>`
 
 * Repo owner or admin
 * Other community or team contact
-
-# full-stack-kata
-Full stask code kata
-##1 Feature: Make a simple report generator backend with ejb3.2
