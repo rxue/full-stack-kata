@@ -1,2 +1,1 @@
-# full-stack-kata
-Full stask code kata
+# The Full Stack Code Kata

@@ -1,0 +1,7 @@
+version: '3.4'
+services:
+  report-generator:
+    build: ../backend/java/ee/7/ejb3.2/report-generator
+    ports:
+    - "8081:8081"
+    container_name: report-generator
