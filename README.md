@@ -1,23 +1,15 @@
-# HOW TO RUN
+# Environment Requirement
 
-Come to this directory to run
+Linux with Docker Installed
 
-### What is this repository for? ###
+# HOW to Run
+Come to this directory, execute `source <shell_script>`
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## Run `report-generator` 
+`source run_report_generator.sh`
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
+# How do I get set up?
+## Summary of set up
 
 * Writing tests
 * Code review
