@@ -15,10 +15,23 @@
     limitations under the License.
 -->
 <!-- Plain HTML page that kicks us into the app -->
-
-<html>
-<head>
-<!--  meta http-equiv="Refresh" content="0; URL=index.jsf" -->
-</head>
-<body>hello</body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+	<head>
+	</head>
+	<body>
+		<h:form>
+            <h2>Start A Task</h2>
+                <h:panelGrid columns="1">
+                    <h:commandButton id="startButton"
+                        action="#{taskController.start}"
+                        value="Start"/>
+                    <h:commandButton id="measureButton"
+                        action="#{taskController.measure}"
+                        value="Measure"/>
+                    <h:messages globalOnly="true" />
+                </h:panelGrid>
+        </h:form>
+	</body>
 </html>

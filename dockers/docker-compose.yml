@@ -10,6 +10,12 @@ services:
     - "8081:8081"
     container_name: report-generator
 
+  work-management:
+    build: ../backend/java/ee/7/workmanagement
+    ports:
+    - "8080:8080"
+    container_name: work-management
+
 networks:
   common:
     driver: bridge
