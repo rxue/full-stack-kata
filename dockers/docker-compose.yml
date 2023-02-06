@@ -16,6 +16,12 @@ services:
     - "8080:8080"
     container_name: work-management
 
+  grab-order:
+    build: ../backend/java/ee/7/grab-order
+    ports:
+    - "80:80"
+    container_name: grab-order
+
 networks:
   common:
     driver: bridge
