@@ -16,11 +16,11 @@ services:
     - "8080:8080"
     container_name: work-management
 
-  grab-order:
-    build: ../backend/java/ee/7/grab-order
+  jakartaee-helloworld:
+    build: ../backend/java/ee/jakarta/10/helloworld
     ports:
-    - "80:80"
-    container_name: grab-order
+    - "8080:8080"
+    container_name: jakartaee-helloworld
 
 networks:
   common:
