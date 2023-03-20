@@ -18,15 +18,16 @@ import java.io.PrintWriter;
  *  No IllegalStateException will be thrown
  */
 @WebServlet(urlPatterns="/zeroMaxInactiveInterval")
-public class ZeroMaxInactiveIntervalServlet extends HttpServlet {
+public class ZeroMaxInactiveIntervalSessionServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request , HttpServletResponse response )
             throws IOException, ServletException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-
         HttpSession session = request.getSession();
+        out.println("Session id is " + session.getId());
         session.setAttribute( "foo" , "42" );
+        System.out.println("Max Inactive Interval by default is " + session.getMaxInactiveInterval());
         session.setMaxInactiveInterval(0);
         String foo = (String)session.getAttribute("foo");
 
