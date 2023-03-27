@@ -17,8 +17,8 @@ import java.io.PrintWriter;
  *  =>
  *  No IllegalStateException will be thrown
  */
-@WebServlet(urlPatterns="/zeroMaxInactiveInterval")
-public class ZeroMaxInactiveIntervalSessionServlet extends HttpServlet {
+@WebServlet(urlPatterns="/zeroOrNegativeMaxInactiveInterval")
+public class ZeroOrNegativeMaxInactiveIntervalSessionServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request , HttpServletResponse response )
             throws IOException, ServletException {

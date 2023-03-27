@@ -17,5 +17,10 @@ public class HelloServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         writer.println("Hello World, first servlet welcome u in light of Head First Servlet :)");
         writer.println("My current Servlet instance hash is " + this.hashCode());
+        writer.println("My current running thread ID is " + Thread.currentThread().getId() + " and its hashcode is " + Thread.currentThread().hashCode());
+        writer.println("remote port is " + req.getRemotePort());
+        writer.println("server port is " + req.getServerPort());
+        writer.println("local port is " + req.getLocalPort());
+
     }
 }
