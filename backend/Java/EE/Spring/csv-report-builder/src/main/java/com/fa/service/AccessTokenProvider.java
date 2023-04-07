@@ -11,7 +11,6 @@ import reactor.core.publisher.Mono;
 class AccessTokenProvider {
     private WebClient client = WebClient.create();
     public Mono<AccessToken> getToken(String userName, String password) {
-
         String url = "https://tryme.fasolutions.com/auth/realms/fa/protocol/openid-connect/token";
         MultiValueMap<String,String> requestFormBody = new LinkedMultiValueMap<>();
         requestFormBody.add("grant_type","password");

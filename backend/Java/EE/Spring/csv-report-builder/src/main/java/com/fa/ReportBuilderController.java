@@ -1,5 +1,6 @@
 package com.fa;
 
+import com.fa.data.AccessToken;
 import com.fa.service.PortfolioQueryServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Base64;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 @RestController
 public class ReportBuilderController {
@@ -25,8 +25,8 @@ public class ReportBuilderController {
                                                         @PathVariable long id,
                                                         @RequestParam(name="startDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                                         @RequestParam(name="endDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        final Predicate<String> isBasicAuthentication = authHeader -> authHeader != null && authHeader.startsWith("Basic ");
-        if (isBasicAuthentication.test(authorizationHeader)) {
+        AuthenticationType authType = AuthenticationType.getAuthenticationType(authorizationHeader);
+        if (authType == AuthenticationType.BASIC) {
             final Function<String,String[]> getUsernamePassword = authHeader -> {
                 String base64Credentials = authHeader.substring("Basic ".length()).trim();
                 byte[] decoded = Base64.getDecoder().decode(base64Credentials);
@@ -42,10 +42,33 @@ public class ReportBuilderController {
                         return new ResponseEntity<>(bytes, headers, org.springframework.http.HttpStatus.OK);
                     });
 
+        }
+        else if (authType == AuthenticationType.BEARER){
+            AccessToken token = new AccessToken();
+            token.setTokenType("Bearer");
+            token.setAccessToken(authorizationHeader.substring("Basic ".length()).trim());
+            return portfolioQueryService.query(token, id, startDate, endDate)
+                    .map(bytes -> {
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.setContentType(MediaType.parseMediaType("text/csv"));
+                        headers.setContentDispositionFormData("attachment", "data.csv");
+                        return new ResponseEntity<>(bytes, headers, org.springframework.http.HttpStatus.OK);
+                    });
         } else {
-            HttpHeaders headers = new HttpHeaders();
-            return Mono.just(new ResponseEntity<>(new byte[0], headers, HttpStatus.UNAUTHORIZED));
+            return Mono.just(new ResponseEntity<>(new byte[0], new HttpHeaders(), HttpStatus.UNAUTHORIZED));
         }
     }
-
+    private enum AuthenticationType {
+        BASIC, BEARER, OTHER;
+        static AuthenticationType getAuthenticationType(String authorizationHeader) {
+            if (authorizationHeader != null) {
+                if (authorizationHeader.startsWith("Basic "))
+                    return BASIC;
+                else if (authorizationHeader.startsWith("Bearer "))
+                    return BEARER;
+                return OTHER;
+            }
+            return null;
+        }
+    }
 }

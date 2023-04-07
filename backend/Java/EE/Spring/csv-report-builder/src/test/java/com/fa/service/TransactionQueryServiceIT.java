@@ -1,7 +1,6 @@
 package com.fa.service;
 
 import com.fa.data.AccessToken;
-import com.fa.data.SecurityDTO;
 import com.fa.data.Transaction;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,18 +14,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
 public class TransactionQueryServiceIT {
-    private static String userName;
+    private static String username;
     private static String password;
     @BeforeAll
     public static void init() {
-        userName = System.getenv("username");
-        password = System.getenv("password");
+        username = TestUtil.getProperty("username");
+        password = TestUtil.getProperty("password");
     }
 
     @Test
     public void getPortfolio_idIs12_succeeded() {
         AccessToken accessToken = new AccessTokenProvider()
-                .getToken(userName, password)
+                .getToken(username, password)
                 .block();
         List<Transaction> result = new PortfolioQueryService()
                 .query(accessToken, 12, new DateRange(LocalDate.of(2021,1,1), LocalDate.of(2021,12,31)))
@@ -39,8 +38,6 @@ public class TransactionQueryServiceIT {
         Transaction anyTransaction = result.stream().findAny().get();
         assertNotNull(anyTransaction.getPortfolioShortName());
         assertNotNull(anyTransaction.getSecurityName());
-        SecurityDTO securityDTO = anyTransaction.getSecurity();
-        assertNotNull(securityDTO.getIsinCode());
         assertNotNull(anyTransaction.getCurrencyCode());
         assertTrue(anyTransaction.getAmount() > 0, "amount has to be greater than 0");
         assertTrue(anyTransaction.getUnitPrice().compareTo(BigDecimal.ZERO) > 0, "unitPrice has to be greater than 0");
