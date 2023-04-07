@@ -5,6 +5,7 @@ import com.fa.data.Transaction;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import javax.security.sasl.AuthenticationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +28,15 @@ public class PortfolioQueryServiceFacade {
     public Mono<byte[]> query(String username, String password, long portfolioId, LocalDate startDate, LocalDate endDate) {
         return accessTokenProvider.getToken(username, password)
                 .flatMap(t -> {
-                    System.out.println("got token:" + t.getAccessToken());
-                    return queryService.query(t, portfolioId, new DateRange(startDate, endDate));
+                    if (!t.isEmpty())
+                        return queryService.query(t, portfolioId, new DateRange(startDate, endDate));
+                    else return Mono.error(new AuthenticationException());
                 })
                 .map(PortfolioQueryServiceFacade::toBytes);
     }
     public Mono<byte[]> query(AccessToken accessToken, long portfolioId, LocalDate startDate, LocalDate endDate) {
         return queryService.query(accessToken, portfolioId, new DateRange(startDate, endDate))
+                .onErrorResume(e -> Mono.error(e))
                 .map(PortfolioQueryServiceFacade::toBytes);
     }
     private static byte[] toBytes(List<Transaction> transactions) {

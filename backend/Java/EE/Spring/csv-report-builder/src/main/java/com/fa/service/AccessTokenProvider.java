@@ -8,6 +8,8 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import javax.naming.AuthenticationException;
+
 class AccessTokenProvider {
     private WebClient client = WebClient.create();
     public Mono<AccessToken> getToken(String userName, String password) {
@@ -22,6 +24,7 @@ class AccessTokenProvider {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(BodyInserters.fromFormData(requestFormBody))
                 .retrieve()
-                .bodyToMono(AccessToken.class);
+                .bodyToMono(AccessToken.class)
+                .onErrorResume(e -> Mono.just(new AccessToken()));
     }
 }

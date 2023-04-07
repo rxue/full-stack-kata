@@ -14,4 +14,7 @@ public class AccessToken {
     public String toString() {
         return tokenType + " " + accessToken;
     }
+    public boolean isEmpty() {
+        return accessToken == null && tokenType == null;
+    }
 }

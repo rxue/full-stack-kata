@@ -26,6 +26,14 @@ public class ReportBuilderController {
                                                         @RequestParam(name="startDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                                         @RequestParam(name="endDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         AuthenticationType authType = AuthenticationType.getAuthenticationType(authorizationHeader);
+        Function<byte[],ResponseEntity<byte[]>> toResponseEntity = bytes -> {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType("text/csv"));
+            headers.setContentDispositionFormData("attachment", "data.csv");
+            byte[] resultBytes = bytes.length == 1 ? new byte[0] : bytes;
+            HttpStatus status = bytes.length == 1 ? HttpStatus.UNAUTHORIZED : HttpStatus.OK;
+            return new ResponseEntity<>(bytes, headers, status);
+        };
         if (authType == AuthenticationType.BASIC) {
             final Function<String,String[]> getUsernamePassword = authHeader -> {
                 String base64Credentials = authHeader.substring("Basic ".length()).trim();
@@ -35,12 +43,8 @@ public class ReportBuilderController {
             };
             String[] usernameThenPassword = getUsernamePassword.apply(authorizationHeader);
             return portfolioQueryService.query(usernameThenPassword[0], usernameThenPassword[1], id, startDate, endDate)
-                    .map(bytes -> {
-                        HttpHeaders headers = new HttpHeaders();
-                        headers.setContentType(MediaType.parseMediaType("text/csv"));
-                        headers.setContentDispositionFormData("attachment", "data.csv");
-                        return new ResponseEntity<>(bytes, headers, org.springframework.http.HttpStatus.OK);
-                    });
+                    .onErrorResume(e -> Mono.just(new byte[1]))
+                    .map(toResponseEntity);
 
         }
         else if (authType == AuthenticationType.BEARER){
@@ -48,12 +52,8 @@ public class ReportBuilderController {
             token.setTokenType("Bearer");
             token.setAccessToken(authorizationHeader.substring("Basic ".length()).trim());
             return portfolioQueryService.query(token, id, startDate, endDate)
-                    .map(bytes -> {
-                        HttpHeaders headers = new HttpHeaders();
-                        headers.setContentType(MediaType.parseMediaType("text/csv"));
-                        headers.setContentDispositionFormData("attachment", "data.csv");
-                        return new ResponseEntity<>(bytes, headers, org.springframework.http.HttpStatus.OK);
-                    });
+                    .onErrorResume(e -> Mono.just(new byte[1]))
+                    .map(toResponseEntity);
         } else {
             return Mono.just(new ResponseEntity<>(new byte[0], new HttpHeaders(), HttpStatus.UNAUTHORIZED));
         }
