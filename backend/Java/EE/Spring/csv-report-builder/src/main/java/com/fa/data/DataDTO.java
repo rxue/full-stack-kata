@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class DataDTO {
-    private PortfolioHolder data;
+    private TransactionsDTO data;
 }
