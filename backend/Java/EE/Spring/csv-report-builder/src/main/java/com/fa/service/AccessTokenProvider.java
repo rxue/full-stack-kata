@@ -9,15 +9,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 class AccessTokenProvider {
+    private WebClient client = WebClient.create();
     public Mono<AccessToken> getToken(String userName, String password) {
-        WebClient webClient = WebClient.create();
+
         String url = "https://tryme.fasolutions.com/auth/realms/fa/protocol/openid-connect/token";
         MultiValueMap<String,String> requestFormBody = new LinkedMultiValueMap<>();
         requestFormBody.add("grant_type","password");
         requestFormBody.add("client_id","external-api");
         requestFormBody.add("username",userName);
         requestFormBody.add("password",password);
-        return webClient.post()
+        return client.post()
                 .uri(url)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(BodyInserters.fromFormData(requestFormBody))

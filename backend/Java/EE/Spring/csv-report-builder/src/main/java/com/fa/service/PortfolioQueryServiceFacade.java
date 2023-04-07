@@ -1,6 +1,5 @@
 package com.fa.service;
 
-import com.fa.data.AccessToken;
 import com.fa.data.Transaction;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;

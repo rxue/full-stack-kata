@@ -22,8 +22,9 @@ import static com.fa.service.Util.getFieldNames;
 import static java.util.stream.Collectors.joining;
 
 class PortfolioQueryService {
+    private WebClient client = WebClient.create();
     public Mono<List<Transaction>> query(AccessToken accessToken, long id, DateRange dateRange) {
-        WebClient.RequestBodySpec requestBodySpec = WebClient.create()
+        WebClient.RequestBodySpec requestBodySpec = client
                 .post()
                 .uri("https://tryme.fasolutions.com/graphql")
                 .contentType(MediaType.APPLICATION_JSON);
