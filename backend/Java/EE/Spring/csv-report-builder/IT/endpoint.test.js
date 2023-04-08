@@ -31,7 +31,7 @@ test("with valid access token", async () => {
         headers: {'Authorization': 'Bearer ' + accessToken},
         httpsAgent:agent
       }; 
-    const result = await axios.post(endpointURL, {}, config);
+    const result = await axios.get(endpointURL, config);
     expect(result.status).toBe(200);
 });
 
@@ -41,7 +41,7 @@ test("with invalid access token", async () => {
             headers: {'Authorization': 'Bearer x'},
             httpsAgent:agent
           }; 
-        await axios.post(endpointURL, {}, config);
+        await axios.get(endpointURL, config);
     } catch (err) {
         expect(err.response.status).toBe(401);
     }
@@ -53,7 +53,6 @@ test("with basic authentication", async () => {
         auth: { username: getArgument('username'), password: getArgument('password') },
         httpsAgent:agent
       };    
-    const result = await axios.post(endpointURL, {}, config);
+    const result = await axios.get(endpointURL, config);
     expect(result.status).toBe(200);
 });
-

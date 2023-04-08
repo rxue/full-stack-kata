@@ -20,7 +20,7 @@ import java.util.function.Function;
 public class ReportBuilderController {
     @Autowired
     private PortfolioQueryServiceFacade portfolioQueryService;
-    @PostMapping(value = "/portfolios/{id}/transactions", produces = "text/csv")
+    @GetMapping(value = "/portfolios/{id}/transactions", produces = "text/csv")
     public Mono<ResponseEntity<byte[]>> getTransactions(@RequestHeader("Authorization") String authorizationHeader,
                                                         @PathVariable long id,
                                                         @RequestParam(name="startDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
