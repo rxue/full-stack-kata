@@ -20,7 +20,7 @@ import java.util.function.Function;
 public class ReportBuilderController {
     @Autowired
     private PortfolioQueryServiceFacade portfolioQueryService;
-    @PostMapping(value = "/portfolio/{id}", produces = "text/csv")
+    @PostMapping(value = "/portfolios/{id}/transactions", produces = "text/csv")
     public Mono<ResponseEntity<byte[]>> getTransactions(@RequestHeader("Authorization") String authorizationHeader,
                                                         @PathVariable long id,
                                                         @RequestParam(name="startDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
@@ -32,7 +32,7 @@ public class ReportBuilderController {
             headers.setContentDispositionFormData("attachment", "data.csv");
             byte[] resultBytes = bytes.length == 1 ? new byte[0] : bytes;
             HttpStatus status = bytes.length == 1 ? HttpStatus.UNAUTHORIZED : HttpStatus.OK;
-            return new ResponseEntity<>(bytes, headers, status);
+            return new ResponseEntity<>(resultBytes, headers, status);
         };
         if (authType == AuthenticationType.BASIC) {
             final Function<String,String[]> getUsernamePassword = authHeader -> {

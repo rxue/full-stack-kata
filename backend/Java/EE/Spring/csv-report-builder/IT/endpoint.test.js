@@ -24,7 +24,7 @@ async function getToken() {
 }
 
 
-const endpointURL = 'https://localhost:8080/portfolio/12'
+const endpointURL = 'https://localhost:8080/portfolios/12/transactions'
 test("with valid access token", async () => {
     const accessToken = await getToken();
     const config = {
