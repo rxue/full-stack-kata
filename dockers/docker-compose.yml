@@ -1,23 +1,9 @@
 version: '3.4'
 
 services:
-  report-generator:
-    build: ../backend/java/ee/7/ejb3.2/report-generator
-    networks:
-      common:
-        ipv4_address: 172.20.0.2
-    ports:
-    - "8081:8081"
-    container_name: report-generator
-
-  work-management:
-    build: ../backend/java/ee/7/workmanagement
-    ports:
-    - "8080:8080"
-    container_name: work-management
 
   jakartaee-helloworld:
-    build: ../backend/java/ee/jakarta/10/helloworld
+    build: ../backend/Java/EE/Jakarta/10/helloworld
     ports:
     - "8080:8080"
     container_name: jakartaee-helloworld
