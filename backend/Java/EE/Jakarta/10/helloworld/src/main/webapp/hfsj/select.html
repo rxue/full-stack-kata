@@ -1,7 +1,18 @@
-<form method="POST" action="beerselect">
+<form method="POST" enctype="multipart/form-data" action="beerselect?name=random">
     <select name="color" size = "1">
         <option>light</option>
         <option>amber</option>
     </select>
+    <label for="avatar">Choose a profile picture:</label>
+    <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, .txt">
     <input type="SUBMIT" />
+</form>
+<br />
+<form action="beerselect">
+    <select name="color" size = "1">
+        <option>light</option>
+        <option>amber</option>
+    </select>
+    <input type="text" name="name" value="give name of beer"/>
+    <input type="SUBMIT" value="submit with get" />
 </form>
