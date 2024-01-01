@@ -3,7 +3,7 @@ version: '3.4'
 services:
 
   jakartaee-helloworld:
-    build: ../backend/Java/EE/Jakarta/10/helloworld
+    build: ../backend/java/ee/Jakarta/10/helloworld
     ports:
     - "8080:8080"
     container_name: jakartaee-helloworld
