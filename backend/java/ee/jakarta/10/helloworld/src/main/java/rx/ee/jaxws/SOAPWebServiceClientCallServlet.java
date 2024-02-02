@@ -1,4 +1,4 @@
-package rx.ee.v.jaxws;
+package rx.ee.jaxws;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

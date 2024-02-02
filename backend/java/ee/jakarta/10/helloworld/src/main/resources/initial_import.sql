@@ -1,0 +1,1 @@
+INSERT INTO portfolio VALUES(1, 'test');
