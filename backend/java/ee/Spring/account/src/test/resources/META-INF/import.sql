@@ -1,0 +1,1 @@
+INSERT INTO GameAccount (id, name, balance) values(1, 'mikko', 100);
